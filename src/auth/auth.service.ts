@@ -44,8 +44,14 @@ export class AuthService {
     // ensure sub is a string
     const payload = { sub: user._id.toString(), email: user.email };
     const token = this.jwtService.sign(payload);
+    const { password: _, ...sanitizedUser } = user.toObject();
 
-    return { access_token: token };
+    return { 
+      message: 'Login successful',
+      access_token: token, 
+      user: sanitizedUser,
+    };
+
   }
 
   async getProfile(userId: string) {
